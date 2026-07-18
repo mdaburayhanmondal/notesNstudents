@@ -14,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isRemembered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +108,30 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 child: Text("Login"),
               ),
-              Row(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: isRemembered,
+                        onChanged: (val) {
+                          setState(() {
+                            isRemembered = val!;
+                          });
+                        },
+                      ),
+                      Text("Remember Me"),
+                    ],
+                  ),
+                  InkWell(
+                    child: Text(
+                      "Forgot password?",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 spacing: 10,
                 mainAxisAlignment: MainAxisAlignment.center,
