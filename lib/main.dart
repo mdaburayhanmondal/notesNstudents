@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nnotes/screens/HomeScreen.dart';
+import 'package:nnotes/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'nNotes',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: Homescreen(),
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
     );
   }
 }
