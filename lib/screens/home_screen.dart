@@ -35,7 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: notes.isEmpty
-          ? const Center(child: Text("No notes found!"))
+          ? const Center(
+              child: Text(
+                "No notes found!",
+                style: TextStyle(color: Colors.red, fontSize: 25),
+              ),
+            )
           : Stack(
               children: [
                 ListView.builder(
