@@ -155,8 +155,7 @@ class _InputContainerState extends State<InputContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 350,
-      height: 250,
+      height: 350,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.yellow[200],
