@@ -32,6 +32,7 @@ class GeneralTextField extends StatelessWidget {
         label: Text(label, style: TextStyle(color: labelColor)),
         hintText: hint,
         border: const OutlineInputBorder(),
+        alignLabelWithHint: true,
       ),
     );
   }
