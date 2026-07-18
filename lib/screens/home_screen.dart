@@ -12,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 bool addTask = false;
 bool editTask = false;
 int? editingIndex;
-
 TextEditingController titleController = TextEditingController();
 TextEditingController descriptionController = TextEditingController();
 
@@ -49,14 +48,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: Colors.yellow[200],
+                      color: notes[idx]["isDone"]
+                          ? Colors.grey[200]
+                          : Colors.yellow[200],
                     ),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 10,
                       ),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.orange,
+                        backgroundColor: notes[idx]["isDone"]
+                            ? Colors.deepOrange[200]
+                            : Colors.deepOrange,
                         foregroundColor: Colors.white,
                         child: Text(
                           "${idx + 1}",
@@ -65,38 +68,61 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       title: Text(
                         "${notes[idx]["title"]}",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          decoration: notes[idx]["isDone"]
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
+                          color: notes[idx]["isDone"]
+                              ? Colors.grey
+                              : Colors.black,
+                        ),
                       ),
                       subtitle: Text(
                         "${notes[idx]["description"]}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 15,
+                          color: notes[idx]["isDone"]
+                              ? Colors.black38
+                              : Colors.black,
                         ),
                       ),
                       trailing: SizedBox(
-                        width: 60,
+                        width: notes[idx]["isDone"] ? 80 : 120,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  editTask = true;
-                                  addTask = false;
-                                  editingIndex = idx;
-                                  titleController.text = notes[idx]["title"]!;
-                                  descriptionController.text =
-                                      notes[idx]["description"]!;
-                                });
-                              },
-                              child: const Icon(
-                                Icons.edit,
-                                color: Colors.green,
+                            if (!notes[idx]["isDone"])
+                              Checkbox(
+                                value: notes[idx]["isDone"],
+                                onChanged: (val) {
+                                  setState(() {
+                                    notes[idx]["isDone"] = val;
+                                  });
+                                },
                               ),
-                            ),
+                            if (!notes[idx]["isDone"])
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    editTask = true;
+                                    addTask = false;
+                                    editingIndex = idx;
+                                    titleController.text = notes[idx]["title"]!;
+                                    descriptionController.text =
+                                        notes[idx]["description"]!;
+                                  });
+                                },
+                                child: const Icon(
+                                  Icons.edit,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            if (notes[idx]["isDone"])
+                              Icon(Icons.check, color: Colors.green),
                             InkWell(
                               onTap: () {
                                 setState(() {
