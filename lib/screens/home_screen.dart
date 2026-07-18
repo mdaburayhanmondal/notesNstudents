@@ -152,6 +152,24 @@ class InputContainer extends StatefulWidget {
 }
 
 class _InputContainerState extends State<InputContainer> {
+  bool isEmptyField = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    void clearError() {
+      if (isEmptyField) {
+        setState(() {
+          isEmptyField = false;
+        });
+      }
+    }
+
+    titleController.addListener(clearError);
+    descriptionController.addListener(clearError);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -163,7 +181,7 @@ class _InputContainerState extends State<InputContainer> {
         boxShadow: [
           BoxShadow(
             color: Colors.red.withValues(alpha: 0.5),
-            offset: const Offset(4, 4), // x, y
+            offset: const Offset(4, 4),
             blurRadius: 6,
             spreadRadius: 2,
           ),
@@ -193,11 +211,16 @@ class _InputContainerState extends State<InputContainer> {
             children: [
               OutlinedButton(
                 onPressed: () {
+                  setState(() {
+                    isEmptyField = false;
+                  });
+
                   addTask = false;
                   editTask = false;
                   editingIndex = null;
-                  titleController.text = "";
-                  descriptionController.text = "";
+
+                  titleController.clear();
+                  descriptionController.clear();
 
                   widget.onActionComplete();
                 },
@@ -211,24 +234,36 @@ class _InputContainerState extends State<InputContainer> {
               ),
               OutlinedButton(
                 onPressed: () {
+                  if (titleController.text.trim().isEmpty ||
+                      descriptionController.text.trim().isEmpty) {
+                    setState(() {
+                      isEmptyField = true;
+                    });
+                    return;
+                  }
+
+                  setState(() {
+                    isEmptyField = false;
+                  });
+
                   if (addTask) {
-                    final newTask = {
-                      "title": titleController.text,
-                      "description": descriptionController.text,
-                    };
-                    notes.add(newTask);
+                    notes.add({
+                      "title": titleController.text.trim(),
+                      "description": descriptionController.text.trim(),
+                    });
                   } else if (editTask && editingIndex != null) {
                     notes[editingIndex!] = {
-                      "title": titleController.text,
-                      "description": descriptionController.text,
+                      "title": titleController.text.trim(),
+                      "description": descriptionController.text.trim(),
                     };
                   }
 
                   addTask = false;
                   editTask = false;
                   editingIndex = null;
-                  titleController.text = "";
-                  descriptionController.text = "";
+
+                  titleController.clear();
+                  descriptionController.clear();
 
                   widget.onActionComplete();
                 },
@@ -242,6 +277,7 @@ class _InputContainerState extends State<InputContainer> {
               ),
             ],
           ),
+          if (isEmptyField) Text("All fields are required."),
         ],
       ),
     );
