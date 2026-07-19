@@ -14,6 +14,12 @@ class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Note Details",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
