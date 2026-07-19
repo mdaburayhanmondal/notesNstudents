@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'nNotes',
+      title: 'notesNstudents',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
