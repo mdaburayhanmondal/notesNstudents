@@ -34,149 +34,158 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: notes.isEmpty
-          ? const Center(
+      body: Stack(
+        children: [
+          if (notes.isEmpty)
+            Center(
               child: Text(
                 "No notes found!",
                 style: TextStyle(color: Colors.red, fontSize: 25),
               ),
             )
-          : Stack(
-              children: [
-                ListView.builder(
-                  itemCount: notes.length,
-                  itemBuilder: (context, idx) => Container(
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: notes[idx]["isDone"]
-                          ? Colors.grey[200]
-                          : Colors.yellow[200],
+          else
+            ListView.builder(
+              itemCount: notes.length,
+              itemBuilder: (context, idx) => Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: notes[idx]["isDone"]
+                      ? Colors.grey[200]
+                      : Colors.yellow[200],
+                ),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                  leading: CircleAvatar(
+                    backgroundColor: notes[idx]["isDone"]
+                        ? Colors.deepOrange[200]
+                        : Colors.deepOrange,
+                    foregroundColor: Colors.white,
+                    child: Text(
+                      "${idx + 1}",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      leading: CircleAvatar(
-                        backgroundColor: notes[idx]["isDone"]
-                            ? Colors.deepOrange[200]
-                            : Colors.deepOrange,
-                        foregroundColor: Colors.white,
-                        child: Text(
-                          "${idx + 1}",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  title: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NoteDetailsScreen(postId: idx),
                         ),
+                      );
+                    },
+                    child: Text(
+                      "${notes[idx]["title"]}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        decoration: notes[idx]["isDone"]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                        color: notes[idx]["isDone"]
+                            ? Colors.grey
+                            : Colors.black,
                       ),
-                      title: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  NoteDetailsScreen(postId: idx),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "${notes[idx]["title"]}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decoration: notes[idx]["isDone"]
-                                ? TextDecoration.lineThrough
-                                : TextDecoration.none,
-                            color: notes[idx]["isDone"]
-                                ? Colors.grey
-                                : Colors.black,
+                    ),
+                  ),
+                  subtitle: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NoteDetailsScreen(postId: idx),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "${notes[idx]["description"]}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15,
+                        color: notes[idx]["isDone"]
+                            ? Colors.black38
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+                  trailing: SizedBox(
+                    width: notes[idx]["isDone"] ? 80 : 120,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (!notes[idx]["isDone"])
+                          Checkbox(
+                            value: notes[idx]["isDone"],
+                            onChanged: (val) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text(
+                                    "'${notes[idx]["title"]}' marked as done",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                notes[idx]["isDone"] = val;
+                              });
+                            },
                           ),
-                        ),
-                      ),
-                      subtitle: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  NoteDetailsScreen(postId: idx),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "${notes[idx]["description"]}",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            color: notes[idx]["isDone"]
-                                ? Colors.black38
-                                : Colors.black,
+                        if (!notes[idx]["isDone"])
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                editTask = true;
+                                addTask = false;
+                                editingIndex = idx;
+                                titleController.text = notes[idx]["title"]!;
+                                descriptionController.text =
+                                    notes[idx]["description"]!;
+                              });
+                            },
+                            child: const Icon(Icons.edit, color: Colors.green),
                           ),
-                        ),
-                      ),
-                      trailing: SizedBox(
-                        width: notes[idx]["isDone"] ? 80 : 120,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            if (!notes[idx]["isDone"])
-                              Checkbox(
-                                value: notes[idx]["isDone"],
-                                onChanged: (val) {
-                                  setState(() {
-                                    notes[idx]["isDone"] = val;
-                                  });
-                                },
-                              ),
-                            if (!notes[idx]["isDone"])
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    editTask = true;
-                                    addTask = false;
-                                    editingIndex = idx;
-                                    titleController.text = notes[idx]["title"]!;
-                                    descriptionController.text =
-                                        notes[idx]["description"]!;
-                                  });
-                                },
-                                child: const Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
+                        if (notes[idx]["isDone"])
+                          Icon(Icons.check, color: Colors.green),
+                        InkWell(
+                          onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text(
+                                  "Note '${notes[idx]["title"]}' deleted",
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               ),
-                            if (notes[idx]["isDone"])
-                              Icon(Icons.check, color: Colors.green),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  notes.removeAt(idx);
+                            );
+                            setState(() {
+                              notes.removeAt(idx);
 
-                                  if (editingIndex == idx) {
-                                    editTask = false;
-                                  }
-                                });
-                              },
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
+                              if (editingIndex == idx) {
+                                editTask = false;
+                              }
+                            });
+                          },
+                          child: const Icon(Icons.delete, color: Colors.red),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
-
-                if (addTask || editTask)
-                  Positioned(
-                    top: 100,
-                    left: 10,
-                    right: 10,
-                    child: InputContainer(onActionComplete: refreshScreen),
-                  ),
-              ],
+              ),
             ),
+
+          if (addTask || editTask)
+            Positioned(
+              top: 100,
+              left: 10,
+              right: 10,
+              child: InputContainer(onActionComplete: refreshScreen),
+            ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
@@ -304,6 +313,7 @@ class _InputContainerState extends State<InputContainer> {
                     notes.add({
                       "title": titleController.text.trim(),
                       "description": descriptionController.text.trim(),
+                      "isDone": false,
                     });
                   } else if (editTask && editingIndex != null) {
                     notes[editingIndex!] = {
