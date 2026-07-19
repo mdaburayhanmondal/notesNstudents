@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nnotes/customWidgets/general_text_field.dart';
 import 'package:nnotes/data/notes.dart';
+import 'package:nnotes/screens/note_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,28 +67,50 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      title: Text(
-                        "${notes[idx]["title"]}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          decoration: notes[idx]["isDone"]
-                              ? TextDecoration.lineThrough
-                              : TextDecoration.none,
-                          color: notes[idx]["isDone"]
-                              ? Colors.grey
-                              : Colors.black,
+                      title: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  NoteDetailsScreen(postId: idx),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "${notes[idx]["title"]}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decoration: notes[idx]["isDone"]
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
+                            color: notes[idx]["isDone"]
+                                ? Colors.grey
+                                : Colors.black,
+                          ),
                         ),
                       ),
-                      subtitle: Text(
-                        "${notes[idx]["description"]}",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          color: notes[idx]["isDone"]
-                              ? Colors.black38
-                              : Colors.black,
+                      subtitle: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  NoteDetailsScreen(postId: idx),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "${notes[idx]["description"]}",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15,
+                            color: notes[idx]["isDone"]
+                                ? Colors.black38
+                                : Colors.black,
+                          ),
                         ),
                       ),
                       trailing: SizedBox(
