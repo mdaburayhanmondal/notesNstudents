@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nnotes/customWidgets/general_text_field.dart';
 import 'package:nnotes/data/users.dart';
-import 'package:nnotes/screens/home_screen.dart';
-import 'package:nnotes/screens/signup_screen.dart';
+import 'package:nnotes/screens/nNotes/home_screen.dart';
+import 'package:nnotes/screens/nNotes/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

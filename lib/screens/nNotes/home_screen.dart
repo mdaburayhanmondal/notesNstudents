@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nnotes/customWidgets/general_text_field.dart';
 import 'package:nnotes/data/notes.dart';
-import 'package:nnotes/screens/note_details_screen.dart';
+import 'package:nnotes/screens/nNotes/note_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
