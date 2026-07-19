@@ -201,6 +201,106 @@ class _HomeScreenState extends State<HomeScreen> {
             : const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      drawer: Drawer(
+        backgroundColor: Colors.yellow[200],
+        child: Column(
+          children: [
+            SizedBox(
+              height: 180,
+              width: double.infinity,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    height: 130,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(color: Colors.deepOrange),
+                  ),
+
+                  const Positioned(
+                    top: 80,
+                    left: 20,
+                    right: 20,
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        size: 80,
+                        color: Colors.deepOrange,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Column(
+              children: [
+                const Text(
+                  "Rayhan",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+
+                const Text(
+                  "rayhan@gmail.com",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+            const Divider(),
+
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text("Home"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.note),
+              title: const Text("My Notes"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text("Settings"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text("About"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            const Spacer(),
+            const Divider(),
+
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text("Logout", style: TextStyle(color: Colors.red)),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
     );
   }
 }
